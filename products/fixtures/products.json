@@ -1,0 +1,50 @@
+[
+{
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+        "title": "adidas running ultraboost",
+        "description": "M\u00e1xima energ\u00eda con ajuste 360\u00ba. Ultraboost con la amortiguaci\u00f3n de la tecnolog\u00eda Boost.",
+        "price": "950000.00",
+        "slug": "adidas-running-ultraboost",
+        "image": "products/KW_02901_1200X628-scaled.jpg",
+        "created_At": "2024-07-01"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+        "title": "Nike Alphafly 3",
+        "description": "Con las Alphafly 3, que se han perfeccionado para la velocidad de una marat\u00f3n, puedes ir m\u00e1s all\u00e1 de lo que cre\u00edas posible.",
+        "price": "890000.00",
+        "slug": "nike-alphafly-3",
+        "image": "products/calzado-de-carrera-en-carretera-alphafly-3-proto-vNzQdQ.png",
+        "created_At": "2024-07-01"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+        "title": "Adidas Adizero Boston 12",
+        "description": "Las zapatillas Adizero Boston 12 est\u00e1n dise\u00f1adas para correr distancias medias y largas.",
+        "price": "950000.00",
+        "slug": "adidas-adizero-boston-12",
+        "image": "products/HQ2171_0.jpg",
+        "created_At": "2024-07-02"
+    }
+},
+{
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+        "title": "Camiseta Selecci\u00f3n Colombia",
+        "description": "Camiseta de visitante es de color negro",
+        "price": "349000.00",
+        "slug": "camiseta-seleccion-colombia",
+        "image": "products/Captura-de-Pantalla-2024-03-14-a-las-5.17.49-p.-m.png",
+        "created_At": "2024-07-02"
+    }
+}
+]
