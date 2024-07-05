@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'products',
     'categories',
+    'users',
+    'carts',
 ]
 
 MIDDLEWARE = [
@@ -40,6 +42,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'facilito_store.urls'
+AUTH_USER_MODEL = 'users.User'
+
 
 TEMPLATES = [
     {
