@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate
 from users.models import User
 from products.models import Product
 from .forms import RegisterForm
+from django.http import HttpResponseRedirect
 
 
 def index(request):
@@ -34,6 +35,10 @@ def logi_view(request):
         if user:
             login(request, user)
             messages.success(request, 'Bienvenido {}'.format(user.username))
+
+            if request.GET.get('next'):
+                return HttpResponseRedirect(request.GET['next'])
+
             return redirect('index')
         else:
             messages.error(request, 'Usuario o contraseña no validos.')
