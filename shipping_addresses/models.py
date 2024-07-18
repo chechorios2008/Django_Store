@@ -15,7 +15,11 @@ class ShippingAddress(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.postal_code
+        return self.postal_code 
+
+    def update_default(self, default=False):
+        self.default = default
+        self.save()
 
     @property
     def address(self):
