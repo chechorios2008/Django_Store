@@ -1,4 +1,5 @@
 from django.db import models
+from orders.common import OrderStatus
 from users.models import User
 from products.models import Product
 
@@ -44,7 +45,7 @@ class Cart(models.Model):
 
     @property
     def order(self):
-        return self.order_set.first()     
+        return self.order_set.filter(status=OrderStatus.CREATED).first()
 
 
 class CartProductsManager(models.Manager):

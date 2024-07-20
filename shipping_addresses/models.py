@@ -15,7 +15,10 @@ class ShippingAddress(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.postal_code 
+        return self.postal_code
+
+    def has_orders(self):
+        return self.order_set.count() >= 1
 
     def update_default(self, default=False):
         self.default = default

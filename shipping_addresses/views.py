@@ -3,15 +3,18 @@ from django.db.models.query import QuerySet
 from django.http import HttpRequest
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from .models import ShippingAddress
+from django.http import HttpResponseRedirect
 from django.views.generic import ListView
-from .forms import ShippingAddressForm
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import UpdateView, DeleteView
 from django.urls import reverse_lazy
+from carts.utils import get_or_create_cart
+from orders.utils import get_or_create_order
+from .models import ShippingAddress
+from .forms import ShippingAddressForm
 
 
 class ShippingAddressListView(LoginRequiredMixin ,ListView):
@@ -51,6 +54,9 @@ class ShippingAddressDeleteView(LoginRequiredMixin, DeleteView):
         if request.user.id != self.get_object().user_id:
             return redirect('carts:cart')
 
+        if self.get_object().has_orders():
+            return redirect('shipping_addresses:shipping_addresses')
+
         return super(ShippingAddressDeleteView, self).dispatch(request, *args, **kwargs)
 
 
@@ -65,8 +71,17 @@ def create(request):
 
         shipping_address.save()
 
+        if request.GET.get('next'):
+            if request.GET['next'] == reverse('orders_address'):
+                cart = get_or_create_cart(request)
+                order = get_or_create_order(cart, request)
+
+                order.update_shipping_address(shipping_address)
+
+                return HttpResponseRedirect(request.GET['next'])
+
         messages.success(request, 'Dirección creada exitosamente')
-        return redirect('shippin_addresses:shipping_addresses')
+        return redirect('shipping_addresses:shipping_addresses')
 
     return render(request, 'shipping_addresses/create.html', {
         'form': form

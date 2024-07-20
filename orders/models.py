@@ -4,16 +4,9 @@ from users.models import User
 from carts.models import Cart
 import uuid
 from django.db.models.signals import pre_save
-
-
-class OrderStatus(Enum):
-    CREATED = 'CREATED'
-    PLAYED = 'PLATED'
-    COMPLETED = 'COMPLETED'
-    CANCELED = 'CANCELED'
-
-
-choices = [(tag, tag.value) for tag in OrderStatus]
+from shipping_addresses.models import ShippingAddress
+from .common import OrderStatus
+from .common import choices
 
 
 class Order(models.Model):
@@ -25,9 +18,34 @@ class Order(models.Model):
     shipping_total = models.DecimalField(default=5000, max_digits=12, decimal_places=2)
     total = models.DecimalField(default=0, max_digits=12, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
+    shipping_address = models.ForeignKey(ShippingAddress, 
+                                         null=True, blank=True, 
+                                         on_delete=models.CASCADE)
 
     def __str__(self):
         return self.order_id
+
+    def get_or_set_shipping_address(self):
+        if self.shipping_address:
+            return self.shipping_address
+
+        shipping_address = self.user.shipping_address
+        if shipping_address:
+            self.update_shipping_address(shipping_address)
+
+        return shipping_address
+
+    def update_shipping_address(self, shipping_address):
+        self.shipping_address = shipping_address
+        self.save()
+
+    def cancel(self):
+        self.status = OrderStatus.CANCELED
+        self.save()
+
+    def complete(self):
+        self.status = OrderStatus.COMPLETED
+        self.save()
 
     def update_total(self):
         self.total = self.get_total()
